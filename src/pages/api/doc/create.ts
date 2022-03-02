@@ -53,11 +53,11 @@ export default async function createDoc(
     content: b64,
     committer: {
       name: 'Ross S',
-      email: process.env.SECRET_EMAIL || '',
+      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
     },
     author: {
       name: 'Ross S',
-      email: process.env.SECRET_EMAIL || '',
+      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
     },
     // branch: filename,
   })
