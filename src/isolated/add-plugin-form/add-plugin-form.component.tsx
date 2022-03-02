@@ -6,6 +6,7 @@ import { BiCheck } from 'react-icons/bi'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 import useAddPluginForm from './add-plugin-form.util'
 
+//TODO: REFACTOR
 const AddPluginForm: FC<any> = () => {
   const {
     inputs,
