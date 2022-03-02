@@ -27,7 +27,7 @@ const AddPluginForm: FC<any> = () => {
         value={inputs.url}
         onChange={handleChange}
         autoComplete="off"
-        className="mt-4 min-w-[400px] rounded-md border border-gray-800 bg-transparent py-2 px-4 text-center focus:border-blue-400 focus:outline-none"
+        className="mt-4 min-w-[400px] rounded-md border border-gray-800 bg-transparent py-2 px-4 text-center text-sm focus:border-blue-400 focus:outline-none"
       />
       <CategoryAutocomplete
         category={inputs.category}
@@ -38,7 +38,7 @@ const AddPluginForm: FC<any> = () => {
         <button
           type="button"
           onClick={fetchRepo}
-          className="mt-4 w-[400px] rounded-md bg-purple-400 py-2"
+          className="mt-6 h-[38px] w-[400px] rounded-md bg-purple-400 py-2 text-sm font-semibold"
         >
           FETCH REPO
         </button>
@@ -46,7 +46,7 @@ const AddPluginForm: FC<any> = () => {
         <button
           type="button"
           onClick={submitRepo}
-          className="mt-4 w-[400px] rounded-md bg-blue-400 py-2"
+          className="mt-6 h-[38px] w-[400px] rounded-md bg-blue-400 py-2 text-sm font-semibold"
         >
           SUBMIT
         </button>
@@ -84,7 +84,7 @@ const categories = [
   { id: 6, name: 'Extras' },
 ]
 
-function CategoryAutocomplete({ category, setCategory, handleCategory }: any) {
+function CategoryAutocomplete({ category, handleCategory }: any) {
   const [query, setQuery] = useState('')
 
   const filteredCategories =
@@ -101,7 +101,7 @@ function CategoryAutocomplete({ category, setCategory, handleCategory }: any) {
     <div className="mt-4 w-full">
       <Combobox value={category} onChange={handleCategory}>
         <div className="relative mt-1">
-          <div className="relative h-[42px] w-full cursor-default overflow-hidden rounded-md border border-gray-800 bg-transparent text-center text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="relative h-[38px] w-full cursor-default overflow-hidden rounded-md border border-gray-800 bg-transparent text-center text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="h-full w-full bg-black py-2 pl-3 pr-10 text-center text-sm leading-5 text-white focus:ring-0"
               name="category"

@@ -67,12 +67,10 @@ function useAddPluginForm() {
   async function submitRepo(e: any) {
     e.preventDefault()
     try {
-      const response = await fetch(postUrl, {
+      await fetch(postUrl, {
         method: 'POST',
         body: JSON.stringify(dataToSubmit),
       })
-
-      console.log(response)
     } catch (err) {
       console.log('err --', err)
     }
