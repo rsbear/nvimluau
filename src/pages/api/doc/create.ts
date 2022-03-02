@@ -1,9 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // import fs from 'fs/promises'
-// import matter from 'gray-matter'
-// @ts-ignore
-import frontmatter from '@github-docs/frontmatter'
+import matter from 'gray-matter'
 import { join } from 'path'
 // import { stringify } from 'yaml'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
@@ -27,21 +25,16 @@ export default async function createDoc(
   const filename = fullName.replace(/[^a-z0-9]/gi, '-').toLowerCase()
   const filepath = `${documentsDirectory}/${filename}.md`
 
-  const markdown = `
-  ---
-  name: ${fullName}
-  slug: ${filename}
-  description: ${description}
-  created: ${dayjs().format('MMM D, YYYY h:mm a')}
-  updated_at: ${updated_at}
-  stars: ${stars}
-  topics: ${topics}
-  url: ${url}
-  category: ${category}
-  ---
-	`
+  const content = matter.stringify('', {
+    category,
+    created: dayjs().format('MMM DD, YYYY h:mm'),
+    description,
+    url,
+    stars,
+    topics,
+    updated_at,
+  })
 
-  const { content } = frontmatter(markdown)
   const b64 = Buffer.from(content).toString('base64')
 
   // TODO: Figure out branching
