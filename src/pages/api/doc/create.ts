@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import fs from 'fs/promises'
-import matter from 'gray-matter'
+// import matter from 'gray-matter'
+import frontmatter from '@github-docs/frontmatter'
 import { join } from 'path'
 import { stringify } from 'yaml'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
@@ -23,26 +24,24 @@ export default async function createDoc(
 
   const { fullName } = generateRepoName(url)
   const filename = fullName.replace(/[^a-z0-9]/gi, '-').toLowerCase()
-
   const filepath = `${documentsDirectory}/${filename}.md`
-  await fs.writeFile(filepath, '')
 
-  const { data: frontMatter, content } = matter(await fs.readFile(filepath))
+  const markdown = `
+  ---
+  name:  ${fullName}
+  slug: ${filename}
+  description: ${description}
+  created: ${dayjs().format('MMM D, YYYY h:mm a')}
+  updated_at: ${updated_at}
+  stars: ${stars}
+  topics: ${topics}
+  url: ${url}
+  category: ${category}
+  ---
+	`
 
-  frontMatter.name = fullName
-  frontMatter.slug = filename
-  frontMatter.description = description
-  frontMatter.created = dayjs().format('MMM D, YYYY h:mm a')
-  frontMatter.updated_at = updated_at
-  frontMatter.stars = stars
-  frontMatter.topics = topics
-  frontMatter.url = url
-  frontMatter.category = category
-
-  const newContent = `---\n${stringify(frontMatter)}---\n${content}`
-
-  await fs.writeFile(filepath, newContent)
-  const b64 = Buffer.from(newContent).toString('base64')
+  const { content } = frontmatter(markdown)
+  const b64 = Buffer.from(content).toString('base64')
 
   // TODO: Figure out branching
   await gh.repos.createOrUpdateFileContents({
@@ -61,8 +60,6 @@ export default async function createDoc(
     },
     // branch: filename,
   })
-
-  await fs.unlink(filepath)
 
   res.json({ slug: filepath })
 }
