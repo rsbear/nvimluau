@@ -85,6 +85,7 @@ const categories = [
   { id: 6, name: 'Extras' },
   { id: 7, name: 'Fuzzy Finder' },
   { id: 8, name: 'Snippets' },
+  { id: 9, name: 'Tab Bar' },
 ]
 
 function CategoryAutocomplete({ category, handleCategory }: any) {

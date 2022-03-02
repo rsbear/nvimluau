@@ -87,3 +87,11 @@ function useAddPluginForm() {
 }
 
 export default useAddPluginForm
+
+import create from 'zustand'
+
+export const usePluginForm = create((set, get) => ({
+  inputs: { url: '', category: '' },
+  dataToSubmit: initialDataToSubmit,
+  actions: {},
+}))

@@ -2,7 +2,6 @@ import { FC } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { IoFlowerOutline } from 'react-icons/io5'
-import { AiFillGithub } from 'react-icons/ai'
 import { TiStar } from 'react-icons/ti'
 
 const Layout: FC<{
@@ -12,33 +11,45 @@ const Layout: FC<{
   children: JSX.Element
 }> = (props) => {
   return (
-    <div className="grid grid-cols-2 px-20">
+    <div className="flex px-20">
       <Head>
         <title>{props.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="pr-8">
-        <header className="mt-10 border-b border-gray-800 py-4">
-          <nav className="flex items-center justify-between">
+      <div className="max-w-3xl pr-8">
+        <header className="mt-10 border-b border-gray-800 py-2">
+          <nav className="flex flex-col">
             <div className="flex items-center">
               <Link href="/">
                 <a className="flex items-center">
-                  <IoFlowerOutline className="text-pink-400" size={24} />
-                  <h4 className="pl-2 text-2xl font-semibold">NVIM LUAU</h4>
+                  <IoFlowerOutline className="text-pink-400" size={20} />
+                  <h4 className="pl-2 text-xl font-semibold">NVIM LUAU</h4>
                 </a>
               </Link>
-              <a
-                href="https://github.com/rsbear/nvimluau"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <AiFillGithub className="ml-8 justify-self-end" size={28} />
-              </a>
             </div>
-            <Link href="/publish">
-              <a className="text-neutral-400 hover:text-blue-400">ADD PLUGIN</a>
-            </Link>
+
+            <div className="flex items-end justify-between pt-2">
+              <p className="text-sm text-gray-400">
+                Awesome plugins for Neovim
+              </p>
+
+              <div className="flex items-center">
+                <a
+                  href="https://github.com/rsbear/nvimluau"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-1 text-sm text-neutral-400 hover:text-blue-400"
+                >
+                  GitHub
+                </a>
+                <Link href="/publish">
+                  <a className="ml-2 pl-1 text-sm text-neutral-400 hover:text-blue-400">
+                    Add Plugin
+                  </a>
+                </Link>
+              </div>
+            </div>
           </nav>
         </header>
 
@@ -68,15 +79,15 @@ const PluginsList: React.FC<{ allDocs: any[]; currentPluginName: string }> = ({
           <Link href={`/${x?.slug}`}>
             <a className="hover:text-blue-400">
               <div className="flex items-center">
-                <h4
+                <h6
                   className={
                     currentPluginName !== x.name
-                      ? 'font-semibold'
-                      : 'font-semibold text-blue-400'
+                      ? 'text-sm font-semibold'
+                      : 'text-sm font-semibold text-blue-400'
                   }
                 >
                   {x?.name}
-                </h4>
+                </h6>
                 <div className="ml-4 border-l border-gray-600 pl-4">
                   <TiStar className="text-gray-300" />
                 </div>

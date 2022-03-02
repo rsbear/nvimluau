@@ -38,24 +38,44 @@ export default async function createDoc(
   })
 
   const b64 = Buffer.from(content).toString('base64')
+  try {
+    const owner = 'rsbear',
+      repo = 'nvimluau'
 
-  // TODO: Figure out branching
-  await gh.repos.createOrUpdateFileContents({
-    owner: 'rsbear',
-    repo: 'nvimluau',
-    path: `documents/${filename}.md`,
-    message: filename,
-    content: b64,
-    committer: {
-      name: 'Ross S',
-      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
-    },
-    author: {
-      name: 'Ross S',
-      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
-    },
-    // branch: filename,
-  })
+    const getSha = await gh.repos.listCommits({
+      owner: 'rsbear',
+      repo: 'nvimluau',
+      per_page: 1,
+    })
+
+    await gh.git.createRef({
+      owner,
+      repo,
+      ref: `refs/heads/${filename}`,
+      sha: getSha?.data[0]?.sha,
+    })
+
+    // TODO: Figure out branching
+    //  await gh.repos.createOrUpdateFileContents({
+    //    owner: 'rsbear',
+    //    repo: 'nvimluau',
+    //    path: `documents/${filename}.md`,
+    //    message: filename,
+    //    content: b64,
+    //    committer: {
+    //      name: 'Ross S',
+    //      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
+    //    },
+    //    author: {
+    //      name: 'Ross S',
+    //      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
+    //    },
+    // branch: filename
+    //  })
+  } catch (err) {
+    console.log(err)
+    res.send(err)
+  }
 
   res.json({ slug: filepath })
 }

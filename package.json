@@ -18,7 +18,8 @@
     "remark": "^14.0.2",
     "remark-html": "^15.0.1",
     "swr": "^1.2.2",
-    "yaml": "^1.10.2"
+    "yaml": "^1.10.2",
+    "zustand": "^3.7.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.2",

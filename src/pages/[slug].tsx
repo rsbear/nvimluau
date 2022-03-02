@@ -15,7 +15,7 @@ const PluginPage: React.FC<any> = ({ allDocs, pluginData, readMe }) => {
       currentPluginName={pluginData.name}
     >
       <div className="mt-10 rounded-xl px-8 py-8">
-        <article className="prose">
+        <article className="prose max-w-[85ch]">
           <div className="" dangerouslySetInnerHTML={{ __html: readMe }}></div>
         </article>
       </div>
