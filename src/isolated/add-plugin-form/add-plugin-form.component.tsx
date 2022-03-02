@@ -18,7 +18,7 @@ const AddPluginForm: FC<any> = () => {
   } = useAddPluginForm()
 
   return (
-    <div className="flex flex-col items-center py-10">
+    <div className="flex w-96 flex-col items-center py-10">
       <h1 className="pb-2 font-semibold">PUBLISH A PLUGIN</h1>
 
       <input
@@ -28,7 +28,7 @@ const AddPluginForm: FC<any> = () => {
         value={inputs.url}
         onChange={handleChange}
         autoComplete="off"
-        className="mt-4 min-w-[400px] rounded-md border border-gray-800 bg-transparent py-2 px-4 text-center text-sm focus:border-blue-400 focus:outline-none"
+        className="mt-4 w-full rounded-md border border-gray-800 bg-transparent py-2 px-4 text-center text-sm focus:border-blue-400 focus:outline-none"
       />
       <CategoryAutocomplete
         category={inputs.category}
@@ -39,7 +39,7 @@ const AddPluginForm: FC<any> = () => {
         <button
           type="button"
           onClick={fetchRepo}
-          className="mt-6 h-[38px] w-[400px] rounded-md bg-purple-400 py-2 text-sm font-semibold"
+          className="mt-6 h-[38px] w-full rounded-md bg-purple-400 py-2 text-sm font-semibold"
         >
           FETCH REPO
         </button>
@@ -47,7 +47,7 @@ const AddPluginForm: FC<any> = () => {
         <button
           type="button"
           onClick={submitRepo}
-          className="mt-6 h-[38px] w-[400px] rounded-md bg-blue-400 py-2 text-sm font-semibold"
+          className="mt-6 h-[38px] w-full rounded-md bg-blue-400 py-2 text-sm font-semibold"
         >
           SUBMIT
         </button>

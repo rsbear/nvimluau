@@ -6,8 +6,12 @@ import { join } from 'path'
 import { stringify } from 'yaml'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 import dayjs from 'dayjs'
+import { Octokit } from '@octokit/rest'
 
 const documentsDirectory = join(process.cwd(), 'documents')
+const gh = new Octokit({
+  auth: process.env.NEXT_PUBLIC_GH_TOKEN,
+})
 
 export default async function createDoc(
   req: NextApiRequest,
@@ -38,6 +42,27 @@ export default async function createDoc(
   const newContent = `---\n${stringify(frontMatter)}---\n${content}`
 
   await fs.writeFile(filepath, newContent)
+  const b64 = Buffer.from(newContent).toString('base64')
+
+  const createFileOnGH = await gh.repos.createOrUpdateFileContents({
+    owner: 'rsbear',
+    repo: 'nvimluau',
+    path: filepath,
+    message: filename,
+    content: b64,
+    committer: {
+      name: 'Ross S',
+      email: 'hellorosss@gmail.com',
+    },
+    author: {
+      name: 'Ross S',
+      email: 'hellorosss@gmail.com',
+    },
+  })
+
+  console.log(createFileOnGH)
+
+  await fs.unlink(filepath)
 
   res.json({ slug: filepath })
 }
