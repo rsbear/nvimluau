@@ -11,5 +11,5 @@ topics:
   - neovim
   - treesitter
 url: https://github.com/Mofiqul/dracula.nvim
-category: Colorscheme
+category: Colorschemes
 ---

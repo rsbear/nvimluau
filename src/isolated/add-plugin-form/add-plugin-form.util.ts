@@ -36,6 +36,10 @@ function useAddPluginForm() {
     setInputs((p) => ({ ...p, [e.target.name]: e.target.value }))
   }
 
+  function handleCategory(category: string) {
+    setInputs((p) => ({ ...p, category }))
+  }
+
   async function fetchRepo() {
     const { owner, repo } = generateRepoName(inputs.url)
     try {
@@ -74,7 +78,14 @@ function useAddPluginForm() {
     }
   }
 
-  return { dataToSubmit, handleChange, fetchRepo, submitRepo }
+  return {
+    inputs,
+    dataToSubmit,
+    handleChange,
+    handleCategory,
+    fetchRepo,
+    submitRepo,
+  }
 }
 
 export default useAddPluginForm
