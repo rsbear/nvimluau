@@ -44,23 +44,23 @@ export default async function createDoc(
   await fs.writeFile(filepath, newContent)
   const b64 = Buffer.from(newContent).toString('base64')
 
-  const createFileOnGH = await gh.repos.createOrUpdateFileContents({
+  // TODO: Figure out branching
+  await gh.repos.createOrUpdateFileContents({
     owner: 'rsbear',
     repo: 'nvimluau',
-    path: filepath,
+    path: `documents/${filename}.md`,
     message: filename,
     content: b64,
     committer: {
       name: 'Ross S',
-      email: 'hellorosss@gmail.com',
+      email: process.env.SECRET_EMAIL || '',
     },
     author: {
       name: 'Ross S',
-      email: 'hellorosss@gmail.com',
+      email: process.env.SECRET_EMAIL || '',
     },
+    // branch: filename,
   })
-
-  console.log(createFileOnGH)
 
   await fs.unlink(filepath)
 

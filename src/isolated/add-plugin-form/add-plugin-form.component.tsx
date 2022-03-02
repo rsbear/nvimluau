@@ -65,7 +65,7 @@ const AddPluginForm: FC<any> = () => {
               {dataToSubmit?.stars}
             </span>
           </div>
-          <p className="text-gray-400">{dataToSubmit?.description}</p>
+          <p className="text-sm text-gray-400">{dataToSubmit?.description}</p>
         </div>
       )}
     </div>
@@ -83,6 +83,8 @@ const categories = [
   { id: 4, name: 'Completion' },
   { id: 5, name: 'Git' },
   { id: 6, name: 'Extras' },
+  { id: 7, name: 'Fuzzy Finder' },
+  { id: 8, name: 'Snippets' },
 ]
 
 function CategoryAutocomplete({ category, handleCategory }: any) {

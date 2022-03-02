@@ -82,7 +82,7 @@ const PluginsList: React.FC<{ allDocs: any[]; currentPluginName: string }> = ({
                 </div>
                 <span className="pl-2 text-sm text-gray-300">{x?.stars}</span>
               </div>
-              <p className="text-gray-400">{x?.description}</p>
+              <p className="text-sm text-gray-400">{x?.description}</p>
             </a>
           </Link>
           <a
