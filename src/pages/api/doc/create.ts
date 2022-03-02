@@ -44,7 +44,7 @@ export default async function createDoc(
     owner: 'rsbear',
     repo: 'nvimluau',
     path: `documents/${filename}.md`,
-    message: filename + 'one',
+    message: filename,
     content: b64,
     committer: {
       name: 'Ross S',
