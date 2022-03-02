@@ -26,6 +26,8 @@ export default async function createDoc(
   const filepath = `${documentsDirectory}/${filename}.md`
 
   const content = matter.stringify('', {
+    name: fullName,
+    slug: filename,
     category,
     created: dayjs().format('MMM DD, YYYY h:mm'),
     description,
@@ -42,7 +44,7 @@ export default async function createDoc(
     owner: 'rsbear',
     repo: 'nvimluau',
     path: `documents/${filename}.md`,
-    message: filename,
+    message: filename + 'one',
     content: b64,
     committer: {
       name: 'Ross S',
