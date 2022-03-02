@@ -29,7 +29,7 @@ export default async function createDoc(
 
   const markdown = `
   ---
-  name:  ${fullName}
+  name: ${fullName}
   slug: ${filename}
   description: ${description}
   created: ${dayjs().format('MMM D, YYYY h:mm a')}
