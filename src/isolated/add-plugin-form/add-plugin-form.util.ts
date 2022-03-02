@@ -28,7 +28,7 @@ const initialDataToSubmit = {
 
 type IDataToSubmit = typeof initialDataToSubmit
 
-function useRepoAdder() {
+function useAddPluginForm() {
   const [inputs, setInputs] = useState(initialInputs)
   const [dataToSubmit, setDataToSubmit] = useState<IDataToSubmit | null>(null)
 
@@ -77,4 +77,4 @@ function useRepoAdder() {
   return { dataToSubmit, handleChange, fetchRepo, submitRepo }
 }
 
-export default useRepoAdder
+export default useAddPluginForm
