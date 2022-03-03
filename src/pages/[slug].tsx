@@ -1,11 +1,11 @@
-import { getAllDocs, getDocBySlug } from '@/lib/docs-api.lib'
-
-import { Layout } from '@/shared/components'
-import { Octokit } from '@octokit/rest'
-import { generateRepoName } from '@/shared/utils/generateRepoName.util'
-
 import { remark } from 'remark'
 import html from 'remark-html'
+import { Octokit } from '@octokit/rest'
+import { HiOutlineExternalLink } from 'react-icons/hi'
+
+import { getAllDocs, getDocBySlug } from '@/lib/docs-api.lib'
+import { generateRepoName } from '@/shared/utils/generateRepoName.util'
+import { Layout } from '@/shared/components'
 
 const PluginPage: React.FC<any> = ({ allDocs, pluginData, readMe }) => {
   return (
@@ -14,10 +14,28 @@ const PluginPage: React.FC<any> = ({ allDocs, pluginData, readMe }) => {
       allDocs={allDocs}
       currentPluginName={pluginData.name}
     >
-      <aside className="flex w-full justify-center border-l border-neutral-700 px-8 py-8">
-        <article className="prose max-w-[85ch]">
-          <div className="" dangerouslySetInnerHTML={{ __html: readMe }}></div>
-        </article>
+      <aside className="max-w-2/3 w-full py-8">
+        <div className="mx-auto max-w-[75ch] pb-10">
+          <a
+            href={pluginData.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex justify-center rounded-sm border-b-2 border-pink-400 px-4 py-2 text-sm font-semibold text-white"
+          >
+            {pluginData.url}
+            <span>
+              <HiOutlineExternalLink className="mt-[2px] ml-4" />
+            </span>
+          </a>
+        </div>
+        <div className="flex justify-center">
+          <article className="prose max-w-[75ch]">
+            <div
+              className=""
+              dangerouslySetInnerHTML={{ __html: readMe }}
+            ></div>
+          </article>
+        </div>
       </aside>
     </Layout>
   )
