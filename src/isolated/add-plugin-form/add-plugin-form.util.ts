@@ -11,6 +11,19 @@ const postUrl =
     ? 'http://localhost:3000/api/doc/create'
     : 'https://nvimluau-rsbear.vercel.app/api/doc/create'
 
+export const categories = [
+  'Colorschemes',
+  'LSP',
+  'Package Managers',
+  'Completion',
+  'Git',
+  'Extras',
+  'Fuzzy Finder',
+  'Snippets',
+  'Tabline',
+  'Status Line',
+]
+
 const initialInputs = {
   url: '',
   category: '',
@@ -26,21 +39,48 @@ const initialDataToSubmit = {
   // readme_content: ""
 }
 
+type InputErrors = {
+  url: string
+  category: string
+}
+
 type IDataToSubmit = typeof initialDataToSubmit
 
 function useAddPluginForm() {
   const [inputs, setInputs] = useState(initialInputs)
   const [dataToSubmit, setDataToSubmit] = useState<IDataToSubmit | null>(null)
+  const [errors, setErrors] = useState<InputErrors | null>(null)
+  const [success, setSuccess] = useState('')
 
-  function handleChange(e: any) {
+  function handleUrlInput(e: any) {
     setInputs((p) => ({ ...p, [e.target.name]: e.target.value }))
+    setErrors((p) => ({
+      url: '',
+      category: !p?.category ? '' : p.category,
+    }))
+    return
   }
 
-  function handleCategory(category: string) {
+  function handleCategorySelect(category: string) {
     setInputs((p) => ({ ...p, category }))
+    setErrors((p) => ({
+      url: !p?.url ? '' : p.url,
+      category: '',
+    }))
+    return
   }
 
   async function fetchRepo() {
+    const validUrl = inputs.url.includes('https://github.com')
+    const validCat = categories.includes(inputs.category)
+    if (!validUrl || !validCat) {
+      setErrors(() => ({
+        category: !validCat ? 'Pick a category from the list' : '',
+        url: !validUrl ? 'Only GitHub URLs allowed' : '',
+      }))
+      return
+    }
+
     const { owner, repo } = generateRepoName(inputs.url)
     try {
       const res = await gh.rest.repos.get({
@@ -58,8 +98,11 @@ function useAddPluginForm() {
           category: inputs.category,
           // readme_content: readMe.data.content
         })
+
+        setErrors(null)
       }
     } catch (err) {
+      setSuccess('Repo doesnt exist')
       console.log('err --', err)
     }
   }
@@ -71,27 +114,33 @@ function useAddPluginForm() {
         method: 'POST',
         body: JSON.stringify(dataToSubmit),
       })
+      setDataToSubmit(initialDataToSubmit)
+      setInputs(initialInputs)
+      setSuccess("Sweet, you opened a PR, I'll get to it soon.")
     } catch (err) {
+      setSuccess('I broke it')
       console.log('err --', err)
     }
   }
 
-  return {
+  const state = {
     inputs,
     dataToSubmit,
-    handleChange,
-    handleCategory,
+    errors,
+    success,
+  }
+
+  const actions = {
+    handleCategorySelect,
+    handleUrlInput,
     fetchRepo,
     submitRepo,
+  }
+
+  return {
+    state,
+    actions,
   }
 }
 
 export default useAddPluginForm
-
-import create from 'zustand'
-
-export const usePluginForm = create((set, get) => ({
-  inputs: { url: '', category: '' },
-  dataToSubmit: initialDataToSubmit,
-  actions: {},
-}))

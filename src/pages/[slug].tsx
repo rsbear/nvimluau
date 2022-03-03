@@ -14,11 +14,11 @@ const PluginPage: React.FC<any> = ({ allDocs, pluginData, readMe }) => {
       allDocs={allDocs}
       currentPluginName={pluginData.name}
     >
-      <div className="mt-10 rounded-xl px-8 py-8">
+      <aside className="flex w-full justify-center border-l border-neutral-700 px-8 py-8">
         <article className="prose max-w-[85ch]">
           <div className="" dangerouslySetInnerHTML={{ __html: readMe }}></div>
         </article>
-      </div>
+      </aside>
     </Layout>
   )
 }

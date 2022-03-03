@@ -11,13 +11,13 @@ const Layout: FC<{
   children: JSX.Element
 }> = (props) => {
   return (
-    <div className="flex px-20">
+    <div className="flex">
       <Head>
         <title>{props.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="max-w-3xl pr-8">
+      <div className="max-w-3xl pr-8 pl-20">
         <header className="mt-10 border-b border-gray-800 py-2">
           <nav className="flex flex-col">
             <div className="flex items-center">
@@ -61,7 +61,7 @@ const Layout: FC<{
         </main>
       </div>
 
-      <aside>{props.children}</aside>
+      {props.children}
     </div>
   )
 }
