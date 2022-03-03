@@ -17,7 +17,7 @@ const Layout: FC<{
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-1/3 border-r border-neutral-700 pr-8 pl-20">
+      <div className="w-2/5 pr-8 pl-20">
         <header className="mt-10 border-b border-gray-800 py-2">
           <nav className="flex flex-col">
             <div className="flex items-center">
@@ -61,7 +61,7 @@ const Layout: FC<{
         </main>
       </div>
 
-      <div className="w-2/3">{props.children}</div>
+      {props.children}
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { Layout } from '@/shared/components'
 const Home: React.FC<any> = ({ allDocs }) => {
   return (
     <Layout title="Neovim lua plugins" allDocs={allDocs} currentPluginName="">
-      <div className="w-full"></div>
+      <div className="w-3/5"></div>
     </Layout>
   )
 }
