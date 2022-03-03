@@ -65,7 +65,7 @@ const AddPluginForm: FC<any> = () => {
         <div className="mt-14">
           <div className="flex items-center">
             <h4 className={'font-semibold'}>
-              {generateRepoName(state?.dataToSubmit?.url as any).fullName}
+              {generateRepoName(state?.dataToSubmit?.url as any)?.fullName}
             </h4>
             <div className="ml-4 border-l border-gray-600 pl-4">
               <TiStar className="text-gray-300" />
@@ -77,9 +77,11 @@ const AddPluginForm: FC<any> = () => {
           <p className="text-sm text-gray-400">
             {state?.dataToSubmit?.description}
           </p>
-          <div className="mt-12">
-            <h1 className="font-lg font-semibold">{state?.success}</h1>
-          </div>
+        </div>
+      )}
+      {state.success && (
+        <div className="mt-12">
+          <h1 className="font-2xl font-semibold">{state?.success}</h1>
         </div>
       )}
     </div>

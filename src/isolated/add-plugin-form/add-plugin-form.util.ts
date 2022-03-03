@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Octokit } from '@octokit/rest'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 
@@ -36,6 +36,7 @@ const initialDataToSubmit = {
   topics: [''],
   updated_at: '',
   category: '',
+  fullName: '',
   // readme_content: ""
 }
 
@@ -70,7 +71,7 @@ function useAddPluginForm() {
     return
   }
 
-  async function fetchRepo() {
+  const fetchRepo = useCallback(async () => {
     const validUrl = inputs.url.includes('https://github.com')
     const validCat = categories.includes(inputs.category)
     if (!validUrl || !validCat) {
@@ -81,11 +82,13 @@ function useAddPluginForm() {
       return
     }
 
-    const { owner, repo } = generateRepoName(inputs.url)
     try {
+      const repo = generateRepoName(inputs.url)
+      if (!repo) return
+
       const res = await gh.rest.repos.get({
-        owner,
-        repo,
+        owner: repo.owner,
+        repo: repo.repo,
       })
 
       if (res.status === 200) {
@@ -96,6 +99,7 @@ function useAddPluginForm() {
           topics: res.data.topics || [''],
           updated_at: res?.data?.updated_at || '',
           category: inputs.category,
+          fullName: repo.fullName,
           // readme_content: readMe.data.content
         })
 
@@ -105,23 +109,31 @@ function useAddPluginForm() {
       setSuccess('Repo doesnt exist')
       console.log('err --', err)
     }
-  }
+  }, [dataToSubmit, inputs, errors])
 
-  async function submitRepo(e: any) {
-    e.preventDefault()
-    try {
-      await fetch(postUrl, {
-        method: 'POST',
-        body: JSON.stringify(dataToSubmit),
-      })
-      setDataToSubmit(initialDataToSubmit)
-      setInputs(initialInputs)
-      setSuccess("Sweet, you opened a PR, I'll get to it soon.")
-    } catch (err) {
-      setSuccess('I broke it')
-      console.log('err --', err)
-    }
-  }
+  const submitRepo = useCallback(
+    async (e: any) => {
+      e.preventDefault()
+      try {
+        const res = await fetch(postUrl, {
+          method: 'POST',
+          body: JSON.stringify(dataToSubmit),
+        })
+
+        const json = await res.json()
+
+        if (json.status === 200) {
+          setDataToSubmit(null)
+          setInputs(initialInputs)
+          setSuccess("Nice, you opened a PR, I'll get to it soon.")
+        }
+      } catch (err) {
+        setSuccess('I broke it')
+        console.log('err --', err)
+      }
+    },
+    [success, dataToSubmit, inputs]
+  )
 
   const state = {
     inputs,
