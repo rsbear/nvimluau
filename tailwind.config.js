@@ -21,6 +21,7 @@ module.exports = {
             h4: { color: colors.neutral[200] },
             strong: { color: colors.purple[200] },
             li: { 'margin-top': '0.25em', 'margin-bottom': '0.25em' },
+            pre: { 'background-color': colors.neutral['800'] },
           },
         },
       }),
