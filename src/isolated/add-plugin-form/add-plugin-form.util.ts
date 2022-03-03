@@ -47,7 +47,7 @@ type InputErrors = {
 
 type IDataToSubmit = typeof initialDataToSubmit
 
-function useAddPluginForm(allDocs) {
+function useAddPluginForm(allDocs: any) {
   const [inputs, setInputs] = useState(initialInputs)
   const [dataToSubmit, setDataToSubmit] = useState<IDataToSubmit | null>(null)
   const [errors, setErrors] = useState<InputErrors | null>(null)
