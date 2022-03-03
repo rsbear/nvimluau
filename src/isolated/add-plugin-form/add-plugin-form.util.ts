@@ -47,7 +47,7 @@ type InputErrors = {
 
 type IDataToSubmit = typeof initialDataToSubmit
 
-function useAddPluginForm() {
+function useAddPluginForm(allDocs) {
   const [inputs, setInputs] = useState(initialInputs)
   const [dataToSubmit, setDataToSubmit] = useState<IDataToSubmit | null>(null)
   const [errors, setErrors] = useState<InputErrors | null>(null)
@@ -74,12 +74,23 @@ function useAddPluginForm() {
   const fetchRepo = useCallback(async () => {
     const validUrl = inputs.url.includes('https://github.com')
     const validCat = categories.includes(inputs.category)
+
     if (!validUrl || !validCat) {
       setErrors(() => ({
         category: !validCat ? 'Pick a category from the list' : '',
         url: !validUrl ? 'Only GitHub URLs allowed' : '',
       }))
       return
+    }
+
+    for (const x of allDocs) {
+      if (x.url === inputs.url) {
+        setErrors((p) => ({
+          category: !p?.category ? '' : p.category,
+          url: 'Plugin already exists',
+        }))
+        return
+      }
     }
 
     try {

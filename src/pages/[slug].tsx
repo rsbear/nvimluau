@@ -56,10 +56,10 @@ export const getStaticProps = async ({ params }: any) => {
     auth: process.env.GH_TOKEN,
   })
 
-  const { owner, repo } = generateRepoName(pluginData.url)
+  const repo = generateRepoName(pluginData.url)
   const getReadMe = await gh.repos.getReadme({
-    owner,
-    repo,
+    owner: repo?.owner || '',
+    repo: repo?.repo || '',
   })
 
   const content = Buffer.from(getReadMe.data.content, 'base64').toString('utf8')

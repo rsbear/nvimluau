@@ -6,8 +6,8 @@ import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 import useAddPluginForm from './add-plugin-form.util'
 
 //TODO: REFACTOR
-const AddPluginForm: FC<any> = () => {
-  const { state, actions } = useAddPluginForm()
+const AddPluginForm: FC<any> = (props) => {
+  const { state, actions } = useAddPluginForm(props.allDocs)
 
   return (
     <div className="flex w-1/2 flex-col items-center py-10">
