@@ -92,18 +92,18 @@ const PluginsList: React.FC<{ allDocs: any[]; currentPluginName: string }> = ({
                   <TiStar className="text-gray-300" />
                 </div>
                 <span className="pl-2 text-sm text-gray-300">{x?.stars}</span>
+                {/* <a */}
+                {/*   href={x.url} */}
+                {/*   className="relative z-50 ml-4 border-l border-gray-600 pl-4 text-xs text-gray-400 hover:text-blue-400" */}
+                {/*   target="_blank" */}
+                {/*   rel="noopener noreferrer" */}
+                {/* > */}
+                {/*   REPO */}
+                {/* </a> */}
               </div>
               <p className="text-sm text-gray-400">{x?.description}</p>
             </a>
           </Link>
-          <a
-            href={x.url}
-            className="text-xs text-gray-400 hover:text-blue-400"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GO TO REPO
-          </a>
         </li>
       ))}
     </ul>
