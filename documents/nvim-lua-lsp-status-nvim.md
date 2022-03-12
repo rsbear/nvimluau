@@ -16,5 +16,5 @@ topics:
   - nvim
   - statusline
 url: https://github.com/nvim-lua/lsp-status.nvim
-category: ""
+category: LSP
 ---

@@ -1,12 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import matter from 'gray-matter'
+import { remark } from 'remark'
+// import html from 'remark-html'
+import gfm from 'remark-gfm'
 import dayjs from 'dayjs'
 import { Octokit } from '@octokit/rest'
+import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 
 const gh = new Octokit({
   auth: process.env.GH_TOKEN,
 })
+
+async function repoReadMe(owner?: string, repo?: string) {
+  if (!owner || !repo) {
+    throw new Error('Could not find owner or repo in submitted URL')
+  }
+  const getReadMe = await gh.repos.getReadme({
+    owner: owner,
+    repo: repo,
+  })
+
+  const content = Buffer.from(getReadMe.data.content, 'base64').toString('utf8')
+
+  const readMe = await remark().use(gfm).process(content)
+  return readMe.toString()
+}
 
 export default async function createDoc(
   req: NextApiRequest,
@@ -17,10 +36,14 @@ export default async function createDoc(
 
   const filename = fullName.replace(/[^a-z0-9]/gi, '-').toLowerCase()
 
-  const content = matter.stringify('', {
+  const submittedRepo = generateRepoName(url)
+
+  const readMe = await repoReadMe(submittedRepo?.owner, submittedRepo?.repo)
+
+  const content = matter.stringify(readMe, {
     name: fullName,
     slug: filename,
-    category,
+    category: category || '',
     created: dayjs().format('MMM DD, YYYY h:mm'),
     description,
     url,

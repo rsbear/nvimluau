@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { Octokit } from '@octokit/rest'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
+import { AllDocumentsList } from '@/core/types'
 
 const gh = new Octokit({
   auth: process.env.NEXT_PUBLIC_GH_TOKEN,
@@ -26,6 +27,7 @@ export const categories = [
   'Full Preconfigured',
   'Fuzzy Finder',
   'Git',
+  'Guides',
   'Keybinding',
   'Indent',
   'LSP',
@@ -78,7 +80,7 @@ type InputErrors = {
 
 type IDataToSubmit = typeof initialDataToSubmit
 
-function useAddPluginForm(allDocs: any) {
+function useAddPluginForm(allDocs: AllDocumentsList[]) {
   const [inputs, setInputs] = useState(initialInputs)
   const [dataToSubmit, setDataToSubmit] = useState<IDataToSubmit | null>(null)
   const [errors, setErrors] = useState<InputErrors | null>(null)
@@ -115,12 +117,14 @@ function useAddPluginForm(allDocs: any) {
     }
 
     for (const x of allDocs) {
-      if (x.url === inputs.url) {
-        setErrors((p) => ({
-          category: !p?.category ? '' : p.category,
-          url: 'Plugin already exists',
-        }))
-        return
+      for (const y of x.items) {
+        if (y.url === inputs.url) {
+          setErrors((p) => ({
+            category: !p?.category ? '' : p.category,
+            url: 'Plugin already exists',
+          }))
+          return
+        }
       }
     }
 
