@@ -76,19 +76,26 @@ export const getStaticProps = async ({ params }: any) => {
     'created',
     'slug',
     'stars',
+    'content',
   ])
 
-  const gh = new Octokit({
-    auth: process.env.GH_TOKEN,
-  })
+  let content = pluginData?.content
 
-  const repo = generateRepoName(pluginData.url)
-  const getReadMe = await gh.repos.getReadme({
-    owner: repo?.owner || '',
-    repo: repo?.repo || '',
-  })
+  // content is missing from the plugin doc
+  if (content.length === 1) {
+    console.log('TEST')
+    const gh = new Octokit({
+      auth: process.env.GH_TOKEN,
+    })
 
-  const content = Buffer.from(getReadMe.data.content, 'base64').toString('utf8')
+    const repo = generateRepoName(pluginData.url)
+    const getReadMe = await gh.repos.getReadme({
+      owner: repo?.owner || '',
+      repo: repo?.repo || '',
+    })
+
+    content = Buffer.from(getReadMe.data.content, 'base64').toString('utf8')
+  }
 
   const readme = await remark().use(html).process(content)
 
