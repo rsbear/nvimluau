@@ -27,6 +27,7 @@ export const getStaticProps = () => {
     'created',
     'slug',
     'stars',
+    'category',
   ])
 
   return {

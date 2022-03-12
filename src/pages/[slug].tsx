@@ -46,8 +46,15 @@ export default PluginPage
 export const getStaticPaths = () => {
   const allDocs = getAllDocs(['slug'])
 
+  const allSlugs = []
+  for (const x of allDocs) {
+    for (const y of x.items) {
+      allSlugs.push(y.slug)
+    }
+  }
+
   return {
-    paths: allDocs.map((x) => ({ params: { slug: x.slug } })),
+    paths: allSlugs.map((x) => ({ params: { slug: x } })),
     fallback: false,
   }
 }
@@ -60,6 +67,7 @@ export const getStaticProps = async ({ params }: any) => {
     'created',
     'slug',
     'stars',
+    'category',
   ])
   const pluginData = getDocBySlug(params.slug, [
     'url',

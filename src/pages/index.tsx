@@ -20,6 +20,7 @@ export const getStaticProps = async () => {
     'created',
     'slug',
     'stars',
+    'category',
   ])
   return {
     props: { allDocs },

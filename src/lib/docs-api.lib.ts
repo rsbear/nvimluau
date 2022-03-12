@@ -1,24 +1,21 @@
 import fs from 'fs'
 import { join } from 'path'
 import matter from 'gray-matter'
+import type { AllDocumentsList, TDocument } from '@/core/types'
 
 const documentsDirectory = join(process.cwd(), 'documents')
 
-export function getDocsSlugs() {
+export function getDocumentSlugsAkaFilenames() {
   return fs.readdirSync(documentsDirectory)
 }
 
-export function getDocBySlug(slug: string, fields: string[] = []) {
+export function getDocBySlug(slug: string, fields: Array<keyof TDocument>) {
   const realSlug = slug.replace(/\.md$/, '')
   const fullPath = join(documentsDirectory, `${realSlug}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
 
-  type Items = {
-    [key: string]: string
-  }
-
-  const items: Items = {}
+  const items = {} as TDocument
 
   // Ensure only the minimal needed data is exposed
   fields.forEach((field) => {
@@ -37,11 +34,26 @@ export function getDocBySlug(slug: string, fields: string[] = []) {
   return items
 }
 
-export function getAllDocs(fields: string[] = []) {
-  const slugs = getDocsSlugs()
-  const posts = slugs
-    .map((slug) => getDocBySlug(slug, fields))
-    // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
-  return posts
+export function getAllDocs(
+  fields: Array<keyof TDocument>
+): Array<AllDocumentsList | never> {
+  // slugs aka filenames
+  const slugs = getDocumentSlugsAkaFilenames()
+  const docs = slugs.map((slug) => getDocBySlug(slug, fields))
+
+  let sortedResults: any = {}
+  docs.forEach((x, idx) => {
+    if (!(x.category in sortedResults)) {
+      Object.assign(sortedResults, {
+        [x.category]: {
+          category: x.category,
+          items: [x],
+        },
+      })
+    } else {
+      sortedResults[x.category].items.push(x)
+    }
+  })
+
+  return Object.values(sortedResults)
 }

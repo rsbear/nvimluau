@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { IoFlowerOutline } from 'react-icons/io5'
 import { TiStar } from 'react-icons/ti'
+import { AllDocumentsList } from '@/core/types'
 
 const Layout: FC<{
   title: string
@@ -68,43 +69,52 @@ const Layout: FC<{
 
 export default Layout
 
-const PluginsList: React.FC<{ allDocs: any[]; currentPluginName: string }> = ({
-  allDocs,
-  currentPluginName,
-}) => {
+const PluginsList: React.FC<{
+  allDocs: AllDocumentsList[]
+  currentPluginName: string
+}> = ({ allDocs, currentPluginName }) => {
   return (
     <ul>
-      {allDocs?.map((x) => (
-        <li key={x.slug} className="my-2 py-2">
-          <Link href={`/${x?.slug}`}>
-            <a className="hover:text-blue-400">
-              <div className="flex items-center">
-                <h6
-                  className={
-                    currentPluginName !== x.name
-                      ? 'text-sm font-semibold'
-                      : 'text-sm font-semibold text-blue-400'
-                  }
-                >
-                  {x?.name}
-                </h6>
-                <div className="ml-4 border-l border-gray-600 pl-4">
-                  <TiStar className="text-gray-300" />
-                </div>
-                <span className="pl-2 text-sm text-gray-300">{x?.stars}</span>
-                {/* <a */}
-                {/*   href={x.url} */}
-                {/*   className="relative z-50 ml-4 border-l border-gray-600 pl-4 text-xs text-gray-400 hover:text-blue-400" */}
-                {/*   target="_blank" */}
-                {/*   rel="noopener noreferrer" */}
-                {/* > */}
-                {/*   REPO */}
-                {/* </a> */}
-              </div>
-              <p className="text-sm text-gray-400">{x?.description}</p>
-            </a>
-          </Link>
-        </li>
+      {allDocs?.map((x, idx) => (
+        <div key={idx}>
+          <h1 className="mt-12 text-xl uppercase text-blue-300">
+            {x?.category}
+          </h1>
+          {x?.items?.map((y) => (
+            <li key={y.slug} className="my-2 py-2">
+              <Link href={`/${y?.slug}`}>
+                <a className="hover:text-blue-400">
+                  <div className="flex items-center">
+                    <h6
+                      className={
+                        currentPluginName !== y.name
+                          ? 'text-sm font-semibold'
+                          : 'text-sm font-semibold text-blue-400'
+                      }
+                    >
+                      {y?.name}
+                    </h6>
+                    <div className="ml-4 border-l border-gray-600 pl-4">
+                      <TiStar className="text-gray-300" />
+                    </div>
+                    <span className="pl-2 text-sm text-gray-300">
+                      {y?.stars}
+                    </span>
+                    {/* <a */}
+                    {/*   href={x.url} */}
+                    {/*   className="relative z-50 ml-4 border-l border-gray-600 pl-4 text-xs text-gray-400 hover:text-blue-400" */}
+                    {/*   target="_blank" */}
+                    {/*   rel="noopener noreferrer" */}
+                    {/* > */}
+                    {/*   REPO */}
+                    {/* </a> */}
+                  </div>
+                  <p className="text-sm text-gray-400">{y?.description}</p>
+                </a>
+              </Link>
+            </li>
+          ))}
+        </div>
       ))}
     </ul>
   )
