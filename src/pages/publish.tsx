@@ -10,7 +10,7 @@ const PublishPlugin: NextPage<any> = (props: { allDocs: any }) => {
       allDocs={props.allDocs}
       currentPluginName={''}
     >
-      <aside className="flex w-3/5 flex-grow justify-center border-l border-neutral-700 px-8 py-8">
+      <aside className="absolute h-[100vh] w-full border-l border-neutral-700 bg-neutral-900 px-4 py-8 md:relative lg:relative lg:w-3/5">
         <AddPluginForm allDocs={props.allDocs} />
       </aside>
     </Layout>

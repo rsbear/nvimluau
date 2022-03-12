@@ -10,7 +10,7 @@ const AddPluginForm: FC<any> = (props) => {
   const { state, actions } = useAddPluginForm(props.allDocs)
 
   return (
-    <div className="flex w-1/2 flex-col items-center py-10">
+    <div className="mx-auto flex w-full flex-col items-center py-10 md:w-1/2 lg:w-1/2">
       <h1 className="pb-2 font-semibold">PUBLISH A PLUGIN</h1>
 
       <div className="mt-6 w-full">

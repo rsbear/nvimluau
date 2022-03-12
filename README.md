@@ -17,3 +17,8 @@ Get your hawaiin shirts, it's a Neovim plugin party.
 ## If you want to help develop this
 
 `npm run dev`
+
+## TODO
+
+1. setup cron job to update plugin data
+2. make mobile friendly
