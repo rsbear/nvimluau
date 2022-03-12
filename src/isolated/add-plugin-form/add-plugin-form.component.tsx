@@ -12,6 +12,9 @@ const AddPluginForm: FC<any> = (props) => {
   return (
     <div className="mx-auto flex w-full flex-col items-center py-10 md:w-1/2 lg:w-1/2">
       <h1 className="pb-2 font-semibold">PUBLISH A PLUGIN</h1>
+      <p className="text-neutral-300">
+        Hit submit and it'll open a PR to add your plugin to the list
+      </p>
 
       <div className="mt-6 w-full">
         <p
