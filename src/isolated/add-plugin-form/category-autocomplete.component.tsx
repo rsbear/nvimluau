@@ -3,7 +3,7 @@ import { Combobox, Transition } from '@headlessui/react'
 import { HiOutlineSelector } from 'react-icons/hi'
 import { BiCheck } from 'react-icons/bi'
 
-import { categories } from './add-plugin-form.util'
+import { categories } from '@/lib/categories-list.lib'
 
 const CategoryAutocomplete: FC<{
   category: string

@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { Octokit } from '@octokit/rest'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 import { AllDocumentsList } from '@/core/types'
+import { categories } from '@/lib/categories-list.lib'
 
 const gh = new Octokit({
   auth: process.env.NEXT_PUBLIC_GH_TOKEN,
@@ -10,52 +11,7 @@ const gh = new Octokit({
 const postUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000/api/doc/create'
-    : 'https://nvimluau-rsbear.vercel.app/api/doc/create'
-
-export const categories = [
-  'Browser Integration',
-  'Colorschemes',
-  'Code Runner',
-  'Command Line',
-  'Comment',
-  'Completion',
-  'Cursor Line',
-  'Debugging',
-  'Dependency Management',
-  'Extras',
-  'Formatting',
-  'Full Preconfigured',
-  'Fuzzy Finder',
-  'Git',
-  'Guides',
-  'Keybinding',
-  'Indent',
-  'LSP',
-  'Misc',
-  'Media',
-  'Motion',
-  'Mouse',
-  'Note Taking',
-  'Package Managers',
-  'Personal Dotfiles',
-  'Plugin Creation',
-  'Project',
-  'Quick Fix',
-  'Search',
-  'Session',
-  'Scrolling',
-  'Snippets',
-  'Splits and Window',
-  'Start Up',
-  'Status Line',
-  'Syntax',
-  'Tabline',
-  'Terminal Integration',
-  'Test',
-  'Tmux',
-  'Utility',
-  'Web Development',
-]
+    : 'https://nvimluau.dev/api/doc/create'
 
 const initialInputs = {
   url: '',
@@ -83,6 +39,7 @@ type IDataToSubmit = typeof initialDataToSubmit
 function useAddPluginForm(allDocs: AllDocumentsList[]) {
   const [inputs, setInputs] = useState(initialInputs)
   const [dataToSubmit, setDataToSubmit] = useState<IDataToSubmit | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<InputErrors | null>(null)
   const [success, setSuccess] = useState('')
 
@@ -160,32 +117,36 @@ function useAddPluginForm(allDocs: AllDocumentsList[]) {
   const submitRepo = useCallback(
     async (e: any) => {
       e.preventDefault()
-      try {
-        const res = await fetch(postUrl, {
-          method: 'POST',
-          body: JSON.stringify(dataToSubmit),
-        })
+      setIsLoading(true)
+      const res = await fetch(postUrl, {
+        method: 'POST',
+        body: JSON.stringify(dataToSubmit),
+      })
 
-        const json = await res.json()
+      const json = await res.json()
 
-        if (json.status === 200) {
-          setDataToSubmit(null)
-          setInputs(initialInputs)
-          setSuccess("Nice, you opened a PR, I'll get to it soon.")
-        }
-      } catch (err) {
-        setSuccess('I broke it')
-        console.log('err --', err)
+      if (json) {
+        setSuccess("Nice, you opened a PR, I'll get to it soon.")
       }
+      setIsLoading(false)
     },
     [success, dataToSubmit, inputs]
   )
+
+  function reset() {
+    setInputs(initialInputs)
+    setDataToSubmit(null)
+    setErrors(null)
+    setSuccess('')
+    setIsLoading(false)
+  }
 
   const state = {
     inputs,
     dataToSubmit,
     errors,
     success,
+    isLoading,
   }
 
   const actions = {
@@ -193,6 +154,7 @@ function useAddPluginForm(allDocs: AllDocumentsList[]) {
     handleUrlInput,
     fetchRepo,
     submitRepo,
+    reset,
   }
 
   return {
@@ -202,3 +164,21 @@ function useAddPluginForm(allDocs: AllDocumentsList[]) {
 }
 
 export default useAddPluginForm
+
+// import create from 'zustand'
+//
+// const useForm = create((set, get) => ({
+//   state: {
+//     inputs: { url: '', category: '' },
+//     dataToSubmit: {},
+//     errors: {},
+//     success: '',
+//   },
+//   actions: {
+//     setUrl: () => {},
+//     setCategory: () => {},
+//     validateInputs: () => {},
+//     fetchRepo: () => {},
+//     submitData: () => {},
+//   },
+// }))

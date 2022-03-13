@@ -53,55 +53,46 @@ export default async function createDoc(
 
   const b64 = Buffer.from(content).toString('base64')
 
-  try {
-    const owner = 'rsbear',
-      repo = 'nvimluau'
+  const owner = 'rsbear',
+    repo = 'nvimluau'
 
-    const getSha = await gh.repos.listCommits({
-      owner: 'rsbear',
-      repo: 'nvimluau',
-      per_page: 1,
-    })
+  const getSha = await gh.repos.listCommits({
+    owner: 'rsbear',
+    repo: 'nvimluau',
+    per_page: 1,
+  })
 
-    await gh.git.createRef({
-      owner,
-      repo,
-      ref: `refs/heads/${filename}`,
-      sha: getSha?.data[0]?.sha,
-    })
+  await gh.git.createRef({
+    owner,
+    repo,
+    ref: `refs/heads/${filename}`,
+    sha: getSha?.data[0]?.sha,
+  })
 
-    await gh.repos.createOrUpdateFileContents({
-      owner: 'rsbear',
-      repo: 'nvimluau',
-      path: `documents/${filename}.md`,
-      message: filename,
-      content: b64,
-      committer: {
-        name: 'Ross S',
-        email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
-      },
-      author: {
-        name: 'Ross S',
-        email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
-      },
-      branch: filename,
-    })
+  await gh.repos.createOrUpdateFileContents({
+    owner: 'rsbear',
+    repo: 'nvimluau',
+    path: `documents/${filename}.md`,
+    message: filename,
+    content: b64,
+    committer: {
+      name: 'Ross S',
+      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
+    },
+    author: {
+      name: 'Ross S',
+      email: process.env.SECRET_EMAIL || 'hellorosss@gmail.com',
+    },
+    branch: filename,
+  })
 
-    const result = await gh.pulls.create({
-      owner,
-      repo,
-      title: `Add plugin ${filename}`,
-      head: filename,
-      base: 'main',
-    })
+  const result = await gh.pulls.create({
+    owner,
+    repo,
+    title: `Add plugin ${filename}`,
+    head: filename,
+    base: 'main',
+  })
 
-    if (result.data) {
-      res.status(200).json({ status: 200, message: 'success' })
-    }
-  } catch (err) {
-    console.log(err)
-    res.send(err)
-  }
-
-  res.status(200).json({ status: 200, message: 'success' })
+  res.status(200).json({ status: 200, message: 'success', result })
 }
