@@ -14,7 +14,7 @@ const PluginPage: React.FC<any> = ({ allDocs, pluginData, readMe }) => {
       allDocs={allDocs}
       currentPluginName={pluginData.name}
     >
-      <aside className="absolute border-l border-neutral-700 bg-neutral-900 px-4 py-8 md:relative lg:relative lg:w-3/5">
+      <aside className="absolute overflow-y-auto border-l border-neutral-700 bg-neutral-900 px-4 py-8 md:relative lg:relative lg:w-3/5">
         <div className="mx-auto max-w-[75ch] pb-10">
           <a
             href={pluginData.url}
