@@ -12,13 +12,13 @@ const Layout: FC<{
   children: JSX.Element
 }> = (props) => {
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <Head>
         <title>{props.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="pl-4 sm:pl-4 md:w-full md:pl-8 lg:w-2/5 lg:pr-8 lg:pl-20">
+      <div className="overflow-y-auto pl-4 sm:pl-4 md:w-full md:pl-8 lg:w-2/5 lg:pr-8 lg:pl-20">
         <header className="mt-10 border-b border-gray-800 py-2">
           <nav className="flex flex-col">
             <div className="flex items-center">
