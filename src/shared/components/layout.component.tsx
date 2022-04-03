@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { IoFlowerOutline } from 'react-icons/io5'
 import { TiStar } from 'react-icons/ti'
 import { AllDocumentsList } from '@/core/types'
@@ -11,8 +12,9 @@ const Layout: FC<{
   currentPluginName: string
   children: JSX.Element
 }> = (props) => {
+  const r = useRouter()
   return (
-    <div className="flex h-screen">
+    <div className={`flex ${r.asPath !== '/' && 'h-screen'}`}>
       <Head>
         <title>{props.title}</title>
         <link rel="icon" href="/favicon.ico" />
