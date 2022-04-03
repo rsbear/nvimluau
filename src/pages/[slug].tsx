@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { remark } from 'remark'
 import html from 'remark-html'
 import { Octokit } from '@octokit/rest'
@@ -6,8 +7,42 @@ import { HiOutlineExternalLink } from 'react-icons/hi'
 import { getAllDocs, getDocBySlug } from '@/lib/docs-api.lib'
 import { generateRepoName } from '@/shared/utils/generateRepoName.util'
 import { Layout } from '@/shared/components'
+import { useRouter } from 'next/router'
 
 const PluginPage: React.FC<any> = ({ allDocs, pluginData, readMe }) => {
+  const r = useRouter()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const imageNodes = document.getElementsByTagName('img')
+
+      for (let i = 0; i < imageNodes.length; i++) {
+        const imageNode = imageNodes[i]
+        const src = imageNode.getAttribute('src')
+
+        if (src && !src.includes('.com')) {
+          const repo = generateRepoName(pluginData.url)
+          const remoteBaseUrl = `https://raw.githubusercontent.com`
+
+          if (src.startsWith('./')) {
+            console.log('TEST', src.slice(2))
+            imageNode.setAttribute(
+              'src',
+              `${remoteBaseUrl}/${repo?.owner}/${repo?.repo}/master/${src.slice(
+                2
+              )}`
+            )
+            return
+          }
+          imageNode.setAttribute(
+            'src',
+            `${remoteBaseUrl}/${repo?.owner}/${repo?.repo}/main/${src}`
+          )
+        }
+      }
+    }
+  }, [r.asPath])
+
   return (
     <Layout
       title="Neovim lua plugins"
