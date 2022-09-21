@@ -6,7 +6,9 @@
 
 ## NVIMLUAU
 
-Get your hawaiin shirts, it's a Neovim plugin party.
+Get your hawaiin shirts, it's a Neovim plugin party. This project was made for good simple fun. The stack is..
+- NextJS
+- tailwind
 
 ## How it works..
 
@@ -16,7 +18,23 @@ Get your hawaiin shirts, it's a Neovim plugin party.
 
 ## If you want to help develop this
 
+`npm i`
 `npm run dev`
+
+### Note to anyone who does want to work on this locally.
+If you want to test the repo submission form, you will need a GitHub secret and email to provide values for an `.env` file.
+```bash
+# .env
+
+GH_TOKEN=
+NEXT_PUBLIC_GH_TOKEN=
+SECRET_EMAIL=
+```
+
+To create a GH Token..
+Go to https://github.com > settings > developer settings
+
+create a token, then plop it into your .env values
 
 ## TODO
 

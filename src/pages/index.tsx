@@ -1,5 +1,4 @@
 import { getAllDocs } from '@/lib/docs-api.lib'
-
 import { Layout } from '@/shared/components'
 
 const Home: React.FC<any> = ({ allDocs }) => {
